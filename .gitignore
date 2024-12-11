@@ -1,0 +1,3 @@
+kubeconfig.conf
+.terraform
+.terraform.lock.hcl
