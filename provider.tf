@@ -10,3 +10,8 @@ terraform {
 provider "harvester" {
     kubeconfig = "./kubeconfig.conf"
 }
+
+provider "kubernetes" {
+  config_path    = "./kubeconfig.conf"
+  config_context = "default"
+}
