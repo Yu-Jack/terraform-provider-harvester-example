@@ -2,7 +2,11 @@ terraform {
   required_providers {
     harvester = {
       source = "harvester/harvester"
-      version = "x.x.x" /* replace version you'd like to test*/
+      version = "1.6.0"  # 使用大於等於 0.6.0 的版本
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "2.38.0"
     }
   }
 }

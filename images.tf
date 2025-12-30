@@ -26,45 +26,45 @@ resource "harvester_image" "ubuntu20" {
   url          = var.ubuntu_image_url
 }
 
-# Source images for encryption (using for_each)
-resource "harvester_image" "ubuntu_sources" {
-  for_each = local.ubuntu_images
+# # Source images for encryption (using for_each)
+# resource "harvester_image" "ubuntu_sources" {
+#   for_each = local.ubuntu_images
 
-  name      = each.value.name
-  namespace = var.harvester_public_namespace
+#   name      = each.value.name
+#   namespace = var.harvester_public_namespace
 
-  display_name = each.value.display_name
-  source_type  = "download"
-  url          = var.ubuntu_image_url
-}
+#   display_name = each.value.display_name
+#   source_type  = "download"
+#   url          = var.ubuntu_image_url
+# }
 
-# Encrypted images (using for_each)
-resource "harvester_image" "encrypted_images" {
-  for_each = local.ubuntu_images
+# # Encrypted images (using for_each)
+# resource "harvester_image" "encrypted_images" {
+#   for_each = local.ubuntu_images
 
-  namespace          = var.default_namespace
-  name              = "encrypted-${each.value.name}"
-  display_name      = "encrypted-${each.value.name}"
-  source_type       = "clone"
-  storage_class_name = harvester_storageclass.encryption.name
+#   namespace          = var.default_namespace
+#   name              = "encrypted-${each.value.name}"
+#   display_name      = "encrypted-${each.value.name}"
+#   source_type       = "clone"
+#   storage_class_name = harvester_storageclass.encryption.name
 
-  security_parameters = {
-    crypto_operation        = "encrypt"
-    source_image_name       = harvester_image.ubuntu_sources[each.key].name
-    source_image_namespace  = harvester_image.ubuntu_sources[each.key].namespace
-  }
-}
+#   security_parameters = {
+#     crypto_operation        = "encrypt"
+#     source_image_name       = harvester_image.ubuntu_sources[each.key].name
+#     source_image_namespace  = harvester_image.ubuntu_sources[each.key].namespace
+#   }
+# }
 
-# Decrypted image example
-resource "harvester_image" "decrypted_image" {
-  namespace        = var.default_namespace
-  name            = "decrypted-ubuntu"
-  display_name    = "decrypted-ubuntu"
-  source_type     = "clone"
+# # Decrypted image example
+# resource "harvester_image" "decrypted_image" {
+#   namespace        = var.default_namespace
+#   name            = "decrypted-ubuntu"
+#   display_name    = "decrypted-ubuntu"
+#   source_type     = "clone"
 
-  security_parameters = {
-    crypto_operation        = "decrypt"
-    source_image_name       = harvester_image.encrypted_images["ubuntu20a"].name
-    source_image_namespace  = harvester_image.encrypted_images["ubuntu20a"].namespace
-  }
-}
+#   security_parameters = {
+#     crypto_operation        = "decrypt"
+#     source_image_name       = harvester_image.encrypted_images["ubuntu20a"].name
+#     source_image_namespace  = harvester_image.encrypted_images["ubuntu20a"].namespace
+#   }
+# }

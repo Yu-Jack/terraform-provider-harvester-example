@@ -1,4 +1,9 @@
 # Global variables for the Terraform configuration
+variable "ssh_public_key" {
+  description = "SSH public key for accessing the VM"
+  type        = string
+  default     = "your-ssh-public-key"
+}
 
 variable "ubuntu_image_url" {
   description = "URL for the Ubuntu image"
